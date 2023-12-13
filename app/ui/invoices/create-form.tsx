@@ -10,9 +10,10 @@ import {
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
 import { createInvoice } from '@/app/lib/actions';
-import { useFormState } from 'react-dom';
+import { useFormState, useFormStatus } from 'react-dom';
 
 export default function Form({ customers }: { customers: CustomerField[] }) {
+  const { pending } = useFormStatus();
   const initialState = { message: null, errors: {} };
   const [state, dispatch] = useFormState(createInvoice, initialState);
   return (
@@ -138,7 +139,9 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
         >
           Cancel
         </Link>
-        <Button type="submit">Create Invoice</Button>
+        <Button type="submit" aria-disabled={pending}>
+          Create Invoice
+        </Button>
       </div>
     </form>
   );
